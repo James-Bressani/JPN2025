@@ -95,19 +95,19 @@ function renderDayPage() {
     const iconClasses = "fixed bottom-0 right-[-5%] w-[40vh] h-[40vh] text-white/5 pointer-events-none z-0 animate-float-slow";
 
     switch (day.day) {
-        case 1: dayIcon = getTokyoTower(iconClasses); break;
-        case 2: dayIcon = getFerrisWheel(iconClasses); break;
+        case 1: dayIcon = getPlane(iconClasses); break; // Arrival at Haneda
+        case 2: dayIcon = getFerrisWheel(iconClasses); break; // Yokohama
         // Day 3 is NYE (Fireworks)
-        case 4: dayIcon = getDeer(iconClasses); break; // Nara Deer
-        case 5: dayIcon = getPagoda(iconClasses); break;
-        case 6: dayIcon = getLuckyBag(iconClasses); break;
-        case 7: dayIcon = getRollercoaster(iconClasses); break;
-        case 8: dayIcon = getShinkansen(iconClasses); break;
-        case 9: dayIcon = getBuddha(iconClasses); break;
-        case 10: dayIcon = getSnowman(iconClasses); break;
-        case 11: dayIcon = getCat(iconClasses); break;
-        case 12: dayIcon = getSkytree(iconClasses); break;
-        case 13: dayIcon = getPlane(iconClasses); break;
+        case 4: dayIcon = getToriiGate(iconClasses); break; // New Year's shrine visits
+        case 5: dayIcon = getPagoda(iconClasses); break; // Kyoto Pagodas
+        case 6: dayIcon = getLuckyBag(iconClasses); break; // New Year Shopping
+        case 7: dayIcon = getRollercoaster(iconClasses); break; // Universal Studios Japan
+        case 8: dayIcon = getShinkansen(iconClasses); break; // Train to Tokyo
+        case 9: dayIcon = getBuddha(iconClasses); break; // Enoshima Island (island torii)
+        case 10: dayIcon = getSnowman(iconClasses); break; // Ski mountain
+        case 11: dayIcon = getCat(iconClasses); break; // Tokyo
+        case 12: dayIcon = getSkytree(iconClasses); break; // Tokyo Skytree
+        case 13: dayIcon = getPlane(iconClasses); break; // Departure
     }
 
     // Global Effects

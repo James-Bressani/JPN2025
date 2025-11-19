@@ -105,19 +105,19 @@ function renderDayCard(day, index) {
     const iconClasses = "absolute -bottom-4 -right-4 w-24 h-24 text-white/5 group-hover:text-white/10 transition-colors duration-500 pointer-events-none";
 
     switch (day.day) {
-        case 1: dayIcon = getTokyoTower(iconClasses); break;
-        case 2: dayIcon = getFerrisWheel(iconClasses); break;
-        case 3: dayIcon = getToriiGate(iconClasses); break; // Use Torii for NYE on index as generic Japan symbol
-        case 4: dayIcon = getDeer(iconClasses); break;
-        case 5: dayIcon = getPagoda(iconClasses); break;
-        case 6: dayIcon = getLuckyBag(iconClasses); break;
-        case 7: dayIcon = getRollercoaster(iconClasses); break;
-        case 8: dayIcon = getShinkansen(iconClasses); break;
-        case 9: dayIcon = getBuddha(iconClasses); break;
-        case 10: dayIcon = getSnowman(iconClasses); break;
-        case 11: dayIcon = getCat(iconClasses); break;
-        case 12: dayIcon = getSkytree(iconClasses); break;
-        case 13: dayIcon = getPlane(iconClasses); break;
+        case 1: dayIcon = getPlane(iconClasses); break; // Arrival at Haneda
+        case 2: dayIcon = getFerrisWheel(iconClasses); break; // Yokohama
+        case 3: dayIcon = getToriiGate(iconClasses); break; // NYE - using torii as Japan symbol
+        case 4: dayIcon = getToriiGate(iconClasses); break; // New Year's shrine visits
+        case 5: dayIcon = getPagoda(iconClasses); break; // Kyoto
+        case 6: dayIcon = getLuckyBag(iconClasses); break; // Shopping
+        case 7: dayIcon = getRollercoaster(iconClasses); break; // Universal Studios
+        case 8: dayIcon = getShinkansen(iconClasses); break; // Travel to Tokyo
+        case 9: dayIcon = getBuddha(iconClasses); break; // Enoshima island torii
+        case 10: dayIcon = getSnowman(iconClasses); break; // Ski mountain
+        case 11: dayIcon = getCat(iconClasses); break; // Tokyo
+        case 12: dayIcon = getSkytree(iconClasses); break; // Tokyo Skytree
+        case 13: dayIcon = getPlane(iconClasses); break; // Departure
     }
 
     return `
