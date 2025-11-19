@@ -1,0 +1,336 @@
+        /* Base Styles */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1A202C;
+            /* Night Indigo fallback */
+            color: #F8FAFC;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Mobile Typography */
+        @media (max-width: 640px) {
+            h1 {
+                font-size: clamp(2rem, 8vw, 3.5rem);
+                line-height: 1.1;
+            }
+
+            h2 {
+                font-size: clamp(1.5rem, 6vw, 2.5rem);
+            }
+
+            h3 {
+                font-size: clamp(1.25rem, 5vw, 1.75rem);
+            }
+
+            p {
+                font-size: clamp(0.875rem, 4vw, 1rem);
+                line-height: 1.6;
+            }
+        }
+
+        /* Touch-friendly buttons (minimum 44px tap target) */
+        button,
+        a[role="button"],
+        .clickable {
+            min-height: 44px;
+            min-width: 44px;
+            touch-action: manipulation;
+        }
+
+        /* Glassmorphism Utility */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-panel-dark {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Mobile-friendly glass panels */
+        @media (max-width: 768px) {
+
+            .glass-panel,
+            .glass-panel-dark {
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1A202C;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2F855A;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+
+        /* Mobile scrollbar (thinner) */
+        @media (max-width: 768px) {
+            ::-webkit-scrollbar {
+                width: 4px;
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Reduce animation on mobile for performance */
+        @media (max-width: 768px) {
+            .animate-float {
+                animation-duration: 8s;
+            }
+        }
+
+        /* Respect user's motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+
+            .animate-float,
+            .animate-float-slow,
+            .snowflake {
+                animation: none !important;
+            }
+
+            .reveal-on-scroll {
+                transition: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-10vh) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh) translateX(20px);
+                opacity: 0.3;
+            }
+        }
+
+        .snowflake {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: snowfall linear infinite;
+        }
+
+        /* Fewer snowflakes on mobile */
+        @media (max-width: 768px) {
+            .snowflake:nth-child(n+26) {
+                display: none;
+            }
+        }
+
+        /* Reveal on Scroll */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile reveal animation (shorter distance) */
+        @media (max-width: 768px) {
+            .reveal-on-scroll {
+                transform: translateY(15px);
+            }
+        }
+
+        /* New Year's Day Special Elements */
+        .rising-sun {
+            position: fixed;
+            bottom: -20vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150vw;
+            height: 80vh;
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.4) 0%, rgba(220, 38, 38, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: sunrise 10s ease-out forwards;
+        }
+
+        @keyframes sunrise {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20vh);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .bg-torii {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vh;
+            height: 80vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.3));
+        }
+
+        /* Mobile adjustments for decorative elements */
+        @media (max-width: 768px) {
+            .bg-torii {
+                width: 60vh;
+                height: 60vh;
+                opacity: 0.1;
+            }
+
+            .rising-sun {
+                height: 60vh;
+            }
+        }
+
+        .animate-float-slow {
+            animation: floatSlow 10s ease-in-out infinite;
+        }
+
+        @keyframes floatSlow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Mobile Navigation & Spacing */
+        @media (max-width: 768px) {
+
+            /* Better spacing for mobile */
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            /* Hide decorative elements on very small screens */
+            @media (max-width: 480px) {
+                .opacity-10:not(.snowflake) {
+                    display: none !important;
+                }
+            }
+        }
+
+        /* Improve touch interactions */
+        @media (hover: none) and (pointer: coarse) {
+
+            /* Remove hover effects on touch devices */
+            .hover\:scale-105:hover {
+                transform: scale(1);
+            }
+
+            /* Ensure clickable areas are clear */
+            button,
+            a {
+                position: relative;
+            }
+
+            button::after,
+            a[onclick]::after {
+                content: '';
+                position: absolute;
+                top: -8px;
+                left: -8px;
+                right: -8px;
+                bottom: -8px;
+            }
+        }
+
+        /* Optimize for landscape mobile */
+        @media (max-width: 896px) and (orientation: landscape) {
+            .min-h-screen {
+                min-height: 100vh;
+            }
+
+            h1 {
+                font-size: clamp(1.75rem, 6vw, 2.5rem);
+            }
+        }
+
+        /* Performance optimizations for mobile */
+        @media (max-width: 768px) {
+
+            /* Use transform for better performance */
+            .transition-all {
+                transition-property: transform, opacity;
+            }
+
+            /* Reduce blur for better performance */
+            .backdrop-blur-md {
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+            }
+
+            .backdrop-blur-sm {
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
+            }
+        }
