@@ -5,6 +5,7 @@ const days = [
     location: "Haneda & Yokohama",
     title: "Arrival",
     theme: "from-slate-900 to-blue-900",
+    images: ['public/images/1_Yokohama.jpg'],
     highlights: [
       { name: "Land at Haneda Airport", location: "Tokyo" },
       { name: "Get Suica card & Wi-Fi", location: "Haneda Airport" },
@@ -18,6 +19,7 @@ const days = [
     location: "Yokohama & Osaka",
     title: "Journey to Osaka Bay",
     theme: "from-blue-900 to-cyan-900",
+    images: ['public/images/osakaaquarium.jpg', 'public/images/ghiblistore.jpg'],
     highlights: [
       { name: "Yokohama exploration", location: "Yokohama" },
       { name: "Shinkansen to Shin-Osaka", location: "Shin-Osaka" },
@@ -33,6 +35,7 @@ const days = [
     location: "Kobe & Osaka",
     title: "New Year's Eve",
     theme: "from-slate-900 via-purple-900 to-slate-900",
+    images: ['public/images/kobenunubokiropeway.jpg', 'public/images/Kobe Harbor.jpg', 'public/images/kobeharbornight.jpg', 'public/images/Namba Yasaka.jpg', 'public/images/dotonbori.jpg'],
     highlights: [
       { name: "Nunobiki Ropeway", location: "Kobe" },
       { name: "Kobe Harbor exploration", location: "Kobe" },
@@ -47,6 +50,7 @@ const days = [
     location: "Nara & Osaka",
     title: "New Year's Day",
     theme: "from-red-900 via-orange-900 to-slate-900",
+    images: ['public/images/naradeer.webp', 'public/images/Tōdai-ji Temple.jpg', 'public/images/Osaka Castle illuminations.jpg'],
     highlights: [
       { name: "Hatsumōde at Nara Park", location: "Nara" },
       { name: "Tōdai-ji Temple", location: "Nara" },
@@ -60,6 +64,7 @@ const days = [
     location: "Kyoto",
     title: "Full Kyoto Day",
     theme: "from-green-900 to-emerald-900",
+    images: ['public/images/fushimiinaraishrine.jpeg', 'public/images/teamLab Biovortex.webp', 'public/images/Yasaka Pagoda.webp', 'public/images/Gion district at night.jpg'],
     highlights: [
       { name: "Fushimi Inari Shrine hike", location: "Kyoto" },
       { name: "teamLab Biovortex", location: "Kyoto" },
@@ -73,6 +78,7 @@ const days = [
     location: "Osaka",
     title: "Lucky Bags & Osaka Exploration",
     theme: "from-red-900 to-orange-900",
+    images: ['public/images/grandfrontosakaluckybag.jpg', 'public/images/Shinsekai neighborhood.webp'],
     highlights: [
       { name: "Fukubukuro (Lucky Bag) shopping", location: "Grand Front Osaka" },
       { name: "Kuromon Ichiba Market lunch", location: "Osaka" },
@@ -85,6 +91,7 @@ const days = [
     location: "Osaka",
     title: "Universal Studios Japan",
     theme: "from-indigo-900 to-purple-900",
+    images: ['public/images/universalstudiojapannintendoworld.jpg'],
     highlights: [
       { name: "Full day at Universal Studios Japan", location: "Osaka" }
     ]
@@ -95,6 +102,7 @@ const days = [
     location: "Tokyo",
     title: "Travel to Tokyo, Ginza & Akihabara",
     theme: "from-gray-900 to-slate-800",
+    images: ['public/images/ginza.jpg', 'public/images/akihabara.jpg'],
     highlights: [
       { name: "Shinkansen to Shinagawa", location: "Tokyo" },
       { name: "Ginza shopping district", location: "Ginza" },
@@ -107,6 +115,7 @@ const days = [
     location: "Kamakura & Enoshima",
     title: "Kamakura & Enoshima",
     theme: "from-teal-900 to-cyan-900",
+    images: ['public/images/Great Buddha (Daibutsu).jpg', 'public/images/Enoden streetcar ride.webp', 'public/images/Jewel of Shonan illumination.png'],
     highlights: [
       { name: "Great Buddha (Daibutsu)", location: "Kamakura" },
       { name: "Enoden streetcar ride", location: "Kamakura-Enoshima" },
@@ -119,6 +128,7 @@ const days = [
     location: "Gala Yuzawa",
     title: "Snowy Day Trip",
     theme: "from-slate-900 to-sky-900",
+    images: ['public/images/Gala Yuzawa ski resort.jpg'],
     highlights: [
       { name: "Shinkansen to Echigo-Yuzawa", location: "Tokyo Station" },
       { name: "Gala Yuzawa ski resort", location: "Niigata" }
@@ -130,6 +140,7 @@ const days = [
     location: "Tokyo",
     title: "West Tokyo Mega-Day",
     theme: "from-fuchsia-900 to-purple-900",
+    images: ['public/images/Giant cat billboard.jpg', 'public/images/shibuyacrossing.jpg'],
     highlights: [
       { name: "Takeshita-dori shopping", location: "Harajuku" },
       { name: "Giant cat billboard", location: "Shinjuku" },
@@ -143,6 +154,7 @@ const days = [
     location: "Tokyo",
     title: "East/Bay Tokyo Day",
     theme: "from-sky-900 to-blue-900",
+    images: ['public/images/teamlabplanets.webp', 'public/images/tokyoskytree.jpg'],
     highlights: [
       { name: "teamLab Planets", location: "Toyosu" },
       { name: "Tokyo Skytree", location: "Sumida" },
@@ -155,6 +167,7 @@ const days = [
     location: "Tokyo",
     title: "Departure Day",
     theme: "from-orange-900 to-red-900",
+    images: ['public/images/Odaiba.jpg', 'public/images/odaiba gundam.jpg'],
     highlights: [
       { name: "Odaiba exploration", location: "Odaiba" },
       { name: "Depart from Haneda Airport", location: "Tokyo" }
@@ -405,6 +418,41 @@ function generateSnowflakes(count) {
     // Use negative delay to start animation mid-cycle
     return `<div class="snowflake" style="left: ${left}%; animation-delay: -${delay}s; animation-duration: ${duration}s; width: ${size}px; height: ${size}px; opacity: ${Math.random() * 0.5}"></div>`;
   }).join('');
+}
+
+/**
+ * Generates HTML for floating cherry blossom petals.
+ * @param {number} count - Number of petals to generate.
+ * @returns {string} HTML string containing petal elements.
+ */
+function generatePetals(count = 20) {
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    const left = Math.random() * 100;
+    const animationDuration = 10 + Math.random() * 15; // 10-25s
+    const delay = Math.random() * 10;
+    const size = 10 + Math.random() * 15; // 10-25px
+    const opacity = 0.4 + Math.random() * 0.4;
+
+    // Random rotation for starting position
+    const rotation = Math.random() * 360;
+
+    html += `
+            <div class="absolute top-[-20px] pointer-events-none animate-sakura-fall"
+                style="
+                    left: ${left}%;
+                    width: ${size}px;
+                    height: ${size}px;
+                    animation-duration: ${animationDuration}s;
+                    animation-delay: -${delay}s;
+                    opacity: ${opacity};
+                    transform: rotate(${rotation}deg);
+                ">
+                ${getCherryBlossom('w-full h-full text-pink-300/80')}
+            </div>
+        `;
+  }
+  return html;
 }
 
 function generateFireworksCanvas() {

@@ -29,24 +29,95 @@ function renderDayPage() {
         accentColor = "text-white";
     }
 
-    let highlightsHTML = day.highlights.map((highlight, index) => `
-        <div class="group relative glass-panel p-6 sm:p-8 rounded-xl transition-all duration-300 hover:bg-white/10 border border-white/5 hover:border-japan-gold/30">
-            <div class="flex items-start justify-between">
-                <div class="flex-1">
-                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-japan-gold transition-colors font-serif">
-                        ${highlight.name}
-                    </h3>
-                    <div class="flex items-center gap-2 text-gray-400 group-hover:text-gray-300">
-                        ${getIcon('location', 'w-5 h-5')}
-                        <span class="text-base sm:text-lg">${highlight.location}</span>
+    // --- Interleave Images and Highlights ---
+    const highlights = day.highlights;
+    const images = day.images || [];
+    // Fix image paths: 'public/images/' -> '../images/'
+    const fixedImages = images.map(img => img.replace('public/images/', '../images/'));
+
+    let contentHTML = '';
+    const totalItems = Math.max(highlights.length, fixedImages.length);
+
+    // Strategy: We want to distribute images somewhat evenly.
+    // If we have more highlights than images, we sprinkle images in.
+    // If we have more images (unlikely for this data), we group them.
+    // Simple approach: 
+    // 1. Always show a highlight.
+    // 2. After some highlights, show an image if available.
+
+    let imageIndex = 0;
+
+    // Calculate roughly how often to insert an image
+    // e.g. 4 highlights, 2 images -> insert after index 0 and 2? or 1 and 3?
+    // Let's just try to spread them out.
+    const imageInterval = fixedImages.length > 0 ? Math.ceil(highlights.length / fixedImages.length) : highlights.length + 1;
+
+    highlights.forEach((highlight, index) => {
+        // Render Highlight
+        contentHTML += `
+            <div class="group relative glass-panel p-6 sm:p-8 rounded-xl transition-all duration-300 hover:bg-white/10 border border-white/5 hover:border-japan-gold/30 mb-8">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-japan-gold transition-colors font-serif">
+                            ${highlight.name}
+                        </h3>
+                        <div class="flex items-center gap-2 text-gray-400 group-hover:text-gray-300">
+                            ${getIcon('location', 'w-5 h-5')}
+                            <span class="text-base sm:text-lg">${highlight.location}</span>
+                        </div>
+                    </div>
+                    <div class="text-4xl sm:text-5xl font-bold text-white/5 group-hover:text-japan-gold/20 transition-colors ml-4 font-serif">
+                        ${index + 1}
                     </div>
                 </div>
-                <div class="text-4xl sm:text-5xl font-bold text-white/5 group-hover:text-japan-gold/20 transition-colors ml-4 font-serif">
-                    ${index + 1}
-                </div>
             </div>
-        </div>
-    `).join('');
+        `;
+
+        // Decide if we should insert an image after this highlight
+        // We want to ensure we use all images by the end.
+        // A simple greedy approach: if (images left) and ( (index+1) % interval == 0 OR we are at the end )
+
+        const isLastHighlight = index === highlights.length - 1;
+        const shouldInsertImage = (imageIndex < fixedImages.length) && (((index + 1) % imageInterval === 0) || isLastHighlight);
+
+        if (shouldInsertImage) {
+            // If we are at the last highlight, dump all remaining images
+            const imagesToRender = isLastHighlight ? fixedImages.slice(imageIndex) : [fixedImages[imageIndex]];
+
+            imagesToRender.forEach(imgSrc => {
+                const getImageStyle = (src) => {
+                    const lowerSrc = src.toLowerCase();
+                    if (lowerSrc.includes('buddha') || lowerSrc.includes('cat') || lowerSrc.includes('gundam') || lowerSrc.includes('skytree') || lowerSrc.includes('pagoda')) {
+                        return 'object-top';
+                    }
+                    return 'object-center';
+                };
+
+                contentHTML += `
+                    <div class="mb-12 rounded-xl overflow-hidden h-64 sm:h-96 relative group cursor-zoom-in shadow-2xl border border-white/10 transform transition-all duration-500 hover:scale-[1.02]" onclick="openLightbox('${imgSrc}')">
+                        <img src="${imgSrc}" alt="Day Image" class="w-full h-full object-cover ${getImageStyle(imgSrc)} transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-night-indigo/50 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
+                        <div class="absolute top-4 right-4 bg-black/50 backdrop-blur-sm p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                        </div>
+                    </div>
+                `;
+            });
+            imageIndex += imagesToRender.length;
+        }
+    });
+
+    // Fallback: if there are images but no highlights (unlikely), just show them
+    if (highlights.length === 0 && fixedImages.length > 0) {
+        fixedImages.forEach(imgSrc => {
+            contentHTML += `
+                <div class="mb-12 rounded-xl overflow-hidden h-64 sm:h-96 relative group cursor-zoom-in shadow-2xl border border-white/10" onclick="openLightbox('${imgSrc}')">
+                    <img src="${imgSrc}" alt="Day Image" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105">
+                </div>
+            `;
+        });
+    }
+
 
     let prevButtonHTML = '';
     let nextButtonHTML = '';
@@ -123,6 +194,49 @@ function renderDayPage() {
         `;
     }
 
+    // --- LIGHTBOX LOGIC ---
+    const lightboxHTML = `
+        <div id="lightbox-modal" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4" onclick="closeLightbox()">
+            <button class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <img id="lightbox-img" src="" alt="Full View" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+        </div>
+    `;
+
+    // Inject lightbox if not present
+    if (!document.getElementById('lightbox-modal')) {
+        document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+    }
+
+    window.openLightbox = (src) => {
+        const modal = document.getElementById('lightbox-modal');
+        const img = document.getElementById('lightbox-img');
+        img.src = src;
+        modal.classList.remove('hidden');
+        requestAnimationFrame(() => {
+            modal.classList.remove('opacity-0');
+            img.classList.remove('scale-95');
+            img.classList.add('scale-100');
+        });
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeLightbox = () => {
+        const modal = document.getElementById('lightbox-modal');
+        const img = document.getElementById('lightbox-img');
+        modal.classList.add('opacity-0');
+        img.classList.remove('scale-100');
+        img.classList.add('scale-95');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            img.src = '';
+            document.body.style.overflow = '';
+        }, 300);
+    };
+
+
     dayPageContainer.innerHTML = `
         <div class="min-h-screen ${themeClass} text-snow-white relative overflow-hidden">
             <!-- Global Background Elements -->
@@ -160,7 +274,7 @@ function renderDayPage() {
 
             <!-- Main Content -->
             <div class="pt-32 pb-20 relative z-10">
-                <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center mb-16">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center mb-12">
                     <div class="inline-block mb-4 px-4 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
                         <span class="text-sm font-bold tracking-widest uppercase text-gray-300">${day.date}</span>
                     </div>
@@ -175,10 +289,15 @@ function renderDayPage() {
                     </div>
                 </div>
 
-                <!-- Highlights -->
+                <!-- Itinerary Timeline (Images + Highlights) -->
                 <div class="max-w-3xl mx-auto px-4 sm:px-6">
-                    <div class="grid gap-4">
-                        ${highlightsHTML}
+                    <div class="relative">
+                        <!-- Vertical Line (Timeline) -->
+                        <div class="absolute left-8 top-0 bottom-0 w-px bg-white/10 hidden sm:block"></div>
+                        
+                        <div class="grid gap-8">
+                            ${contentHTML}
+                        </div>
                     </div>
                 </div>
 

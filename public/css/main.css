@@ -20,26 +20,61 @@
         h5,
         h6 {
             font-family: 'Cinzel', serif;
+            letter-spacing: 0.05em;
+            /* Add slight spacing for premium feel */
+        }
+
+        h1 {
+            letter-spacing: 0.1em;
+            /* More spacing for main title */
+        }
+
+        /* Japanese Typography */
+        .font-japanese {
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        .writing-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 0.5em;
+            /* Increased spacing to prevent overlap */
+            line-height: 1.8;
+            /* Increased line height for better breathing room */
+            font-weight: 500;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            /* Add depth */
         }
 
         /* Mobile Typography */
         @media (max-width: 640px) {
             h1 {
-                font-size: clamp(2rem, 8vw, 3.5rem);
+                font-size: clamp(2.5rem, 10vw, 4rem);
+                /* Slightly larger for impact */
                 line-height: 1.1;
+                letter-spacing: 0.05em;
             }
 
             h2 {
-                font-size: clamp(1.5rem, 6vw, 2.5rem);
+                font-size: clamp(1.75rem, 7vw, 3rem);
             }
 
             h3 {
-                font-size: clamp(1.25rem, 5vw, 1.75rem);
+                font-size: clamp(1.25rem, 5vw, 2rem);
             }
 
             p {
-                font-size: clamp(0.875rem, 4vw, 1rem);
-                line-height: 1.6;
+                font-size: clamp(0.95rem, 4vw, 1.1rem);
+                /* Improved readability */
+                line-height: 1.7;
+                color: #E2E8F0;
+                /* Slightly lighter for better contrast */
+            }
+
+            /* Adjust vertical text for mobile */
+            .writing-vertical {
+                letter-spacing: 0.3em;
+                line-height: 1.5;
             }
         }
 
@@ -52,20 +87,40 @@
             touch-action: manipulation;
         }
 
-        /* Glassmorphism Utility */
+        /* Glassmorphism Utility - Premium Refinement */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            /* Smoother blur */
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            /* Crisper border */
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06),
+                inset 0 0 20px rgba(255, 255, 255, 0.02);
+            /* Inner glow */
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow:
+                0 20px 25px -5px rgba(0, 0, 0, 0.2),
+                0 10px 10px -5px rgba(0, 0, 0, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.05);
+            transform: translateY(-4px) scale(1.01);
+            /* Subtle scale */
         }
 
         .glass-panel-dark {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.6);
+            /* Darker for better contrast */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
         /* Mobile-friendly glass panels */
@@ -73,9 +128,291 @@
 
             .glass-panel,
             .glass-panel-dark {
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
             }
+        }
+
+        /* --- Cinematic Animations --- */
+
+        /* 1. Letterbox Entrance */
+        .letterbox-bar {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 50vh;
+            background-color: #000;
+            z-index: 9999;
+            transition: height 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+            /* Ease-in-out-quart */
+        }
+
+        .letterbox-top {
+            top: 0;
+        }
+
+        .letterbox-bottom {
+            bottom: 0;
+        }
+
+        .letterbox-open {
+            height: 0 !important;
+        }
+
+        /* 2. Ken Burns Effect */
+        @keyframes ken-burns {
+            0% {
+                transform: scale(1.0);
+            }
+
+            100% {
+                transform: scale(1.15);
+            }
+        }
+
+        .animate-ken-burns {
+            animation: ken-burns 20s ease-out forwards;
+        }
+
+        /* 3. Chromatic Aberration (Glitch) */
+        @keyframes glitch-skew {
+            0% {
+                transform: skew(0deg);
+            }
+
+            20% {
+                transform: skew(-2deg);
+            }
+
+            40% {
+                transform: skew(2deg);
+            }
+
+            60% {
+                transform: skew(-1deg);
+            }
+
+            80% {
+                transform: skew(1deg);
+            }
+
+            60% {
+                transform: skew(-0.5deg);
+            }
+
+            80% {
+                transform: skew(0.5deg);
+            }
+        }
+
+        /* Cyberpunk Title with Subtle Glow */
+        .elegant-entrance {
+            animation: elegant-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            text-shadow:
+                0 0 10px rgba(255, 255, 255, 0.4),
+                0 0 20px rgba(255, 255, 255, 0.2),
+                0 0 30px rgba(147, 197, 253, 0.15);
+        }
+
+        @keyframes elegant-fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* 3D Pop-out Effect - Bottom Right */
+        .layered-text {
+            text-shadow:
+                /* 3D layered shadows going bottom-right */
+                1px 1px 0 rgba(0, 0, 0, 0.3),
+                2px 2px 0 rgba(0, 0, 0, 0.25),
+                3px 3px 0 rgba(0, 0, 0, 0.2),
+                4px 4px 0 rgba(0, 0, 0, 0.15),
+                5px 5px 0 rgba(0, 0, 0, 0.1),
+                6px 6px 0 rgba(0, 0, 0, 0.08),
+                7px 7px 0 rgba(0, 0, 0, 0.06),
+                8px 8px 0 rgba(0, 0, 0, 0.04),
+                /* Soft shadow for depth */
+                10px 10px 20px rgba(0, 0, 0, 0.5),
+                /* Cyberpunk glow */
+                0 0 10px rgba(255, 255, 255, 0.4),
+                0 0 20px rgba(255, 255, 255, 0.2),
+                0 0 30px rgba(147, 197, 253, 0.15);
+        }
+
+        /* Subtle Glitch Effect - No movement, only chromatic aberration */
+        .glitch-text {
+            position: relative;
+        }
+
+        .glitch-text::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            color: #0ff;
+            z-index: -1;
+            animation: glitch-anim-1 8s infinite;
+        }
+
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            color: #f0f;
+            z-index: -2;
+            animation: glitch-anim-2 8s infinite;
+        }
+
+        @keyframes glitch-anim-1 {
+
+            0%,
+            95% {
+                clip-path: inset(0 0 0 0);
+                opacity: 0;
+            }
+
+            95.5% {
+                opacity: 0.3;
+                clip-path: inset(20% 0 80% 0);
+            }
+
+            96% {
+                clip-path: inset(60% 0 10% 0);
+            }
+
+            96.5% {
+                clip-path: inset(40% 0 50% 0);
+            }
+
+            97% {
+                clip-path: inset(80% 0 5% 0);
+            }
+
+            97.5% {
+                clip-path: inset(10% 0 60% 0);
+            }
+
+            98% {
+                clip-path: inset(30% 0 30% 0);
+            }
+
+            98.5%,
+            100% {
+                clip-path: inset(0 0 0 0);
+                opacity: 0;
+            }
+
+        }
+
+        @keyframes glitch-anim-2 {
+
+            0%,
+            95% {
+                clip-path: inset(0 0 0 0);
+                opacity: 0;
+            }
+
+            95.5% {
+                opacity: 0.3;
+                clip-path: inset(10% 0 60% 0);
+            }
+
+            96% {
+                clip-path: inset(30% 0 20% 0);
+            }
+
+            96.5% {
+                clip-path: inset(70% 0 10% 0);
+            }
+
+            97% {
+                clip-path: inset(20% 0 50% 0);
+            }
+
+            97.5% {
+                clip-path: inset(50% 0 30% 0);
+            }
+
+            98% {
+                clip-path: inset(0% 0 80% 0);
+            }
+
+            98.5%,
+            100% {
+                clip-path: inset(0 0 0 0);
+                opacity: 0;
+            }
+
+            100% {
+                clip-path: inset(0% 0 80% 0);
+            }
+        }
+
+        /* 4. Staggered Fade In */
+        .opacity-0-start {
+            opacity: 0;
+        }
+
+        .fade-in-reveal {
+            animation: fade-in-up 1s ease-out forwards;
+        }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Year Digit Drop Animation (Countdown Style) */
+        @keyframes digit-drop-out {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes digit-drop-in {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .digit-drop-out {
+            animation: digit-drop-out 1s ease-in forwards;
+        }
+
+        .digit-drop-in {
+            animation: digit-drop-in 1s ease-out forwards;
         }
 
         /* Scrollbar */
@@ -117,7 +454,8 @@
         }
 
         .animate-float {
-            animation: float 6s ease-in-out infinite;
+            animation: float 8s ease-in-out infinite;
+            /* Slower float */
         }
 
         /* Reduce animation on mobile for performance */
@@ -333,4 +671,71 @@
                 backdrop-filter: blur(4px);
                 -webkit-backdrop-filter: blur(4px);
             }
+        }
+
+        /* --- HERO ANIMATIONS --- */
+
+        /* Slow breathe effect for background image */
+        @keyframes breathe {
+
+            0%,
+            100% {
+                transform: scale(1.0);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .animate-breathe {
+            animation: breathe 20s ease-in-out infinite;
+        }
+
+        /* Drift effect for fog/mist */
+        @keyframes drift {
+            0% {
+                transform: translateX(-5%);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: translateX(5%);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateX(-5%);
+                opacity: 0.4;
+            }
+        }
+
+        .animate-drift {
+            animation: drift 15s ease-in-out infinite;
+        }
+
+        /* Sakura Fall Animation */
+        @keyframes sakura-fall {
+            0% {
+                top: -10%;
+                transform: translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 110%;
+                transform: translateX(20px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .animate-sakura-fall {
+            position: absolute;
+            animation-name: sakura-fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
         }
