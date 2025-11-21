@@ -29,6 +29,10 @@ function renderDayPage() {
         accentColor = "text-white";
     }
 
+    // Find hotel information for this day
+    const hotelCheckIn = hotels.find(h => h.days[0] === day.day);
+    const hotelCheckOut = hotels.find(h => h.days[h.days.length - 1] === day.day && h.days.length > 1);
+
     // --- Interleave Images and Highlights ---
     const highlights = day.highlights;
     const images = day.images || [];
@@ -283,10 +287,31 @@ function renderDayPage() {
                         ${day.title}
                     </h1>
                     
-                    <div class="flex items-center justify-center gap-2 text-gray-400">
+                    <div class="flex items-center justify-center gap-2 text-gray-400 mb-4">
                         ${getIcon('location', 'w-5 h-5')}
                         <span class="text-lg">${day.location}</span>
                     </div>
+                    
+                    ${hotelCheckIn || hotelCheckOut ? `
+                    <div class="flex flex-wrap items-center justify-center gap-3 mt-6">
+                        ${hotelCheckOut ? `
+                        <div class="flex items-center gap-2 px-4 py-2 bg-torii-red/20 border border-torii-red/30 rounded-lg text-sm">
+                            <svg class="w-4 h-4 text-torii-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            <span class="text-white font-semibold">Check-out: ${hotelCheckOut.city}</span>
+                        </div>
+                        ` : ''}
+                        ${hotelCheckIn ? `
+                        <div class="flex items-center gap-2 px-4 py-2 bg-pine-green/20 border border-pine-green/30 rounded-lg text-sm">
+                            <svg class="w-4 h-4 text-pine-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span class="text-white font-semibold">Check-in: ${hotelCheckIn.city}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    ` : ''}
                 </div>
 
                 <!-- Itinerary Timeline (Images + Highlights) -->

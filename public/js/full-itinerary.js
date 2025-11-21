@@ -137,6 +137,10 @@ function renderFullItinerary() {
         const fixedImages = day.images.map(fixImagePath);
         const usedImages = new Set(); // Track which images have been used
 
+        // Find hotel information for this day
+        const hotelCheckIn = hotels.find(h => h.days[0] === day.day);
+        const hotelCheckOut = hotels.find(h => h.days[h.days.length - 1] === day.day && h.days.length > 1);
+
         return `
             <div class="mb-16 glass-panel p-8 md:p-12 rounded-2xl border border-white/10 hover:border-japan-gold/30 transition-all duration-500 cursor-pointer group" onclick="window.location.href='pages/day13.html?day=${day.day - 1}'">
                 <!-- Day Header -->
@@ -154,8 +158,30 @@ function renderFullItinerary() {
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                             <span class="text-lg">${day.location}</span>
                         </div>
+                        
+                        ${hotelCheckIn || hotelCheckOut ? `
+                        <div class="mt-4 flex flex-wrap gap-3">
+                            ${hotelCheckOut ? `
+                            <div class="flex items-center gap-2 px-4 py-2 bg-torii-red/20 border border-torii-red/30 rounded-lg text-sm">
+                                <svg class="w-4 h-4 text-torii-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                </svg>
+                                <span class="text-white">Check-out: ${hotelCheckOut.city}</span>
+                            </div>
+                            ` : ''}
+                            ${hotelCheckIn ? `
+                            <div class="flex items-center gap-2 px-4 py-2 bg-pine-green/20 border border-pine-green/30 rounded-lg text-sm">
+                                <svg class="w-4 h-4 text-pine-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                </svg>
+                                <span class="text-white">Check-in: ${hotelCheckIn.city}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                        ` : ''}
                     </div>
                 </div>
+
 
                 <!-- Activities with Images -->
                 <div class="space-y-6">
@@ -232,7 +258,12 @@ function renderFullItinerary() {
                         <svg class="group-hover:-translate-x-1 transition-transform w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                         <span class="font-serif font-bold tracking-wide">Back to Home</span>
                     </a>
-                    <div class="text-lg font-serif text-white tracking-widest">FULL ITINERARY</div>
+                    <div class="flex items-center gap-6">
+                        <a href="hotels.html" class="text-gray-300 hover:text-japan-gold transition-colors font-serif tracking-wide hidden sm:block">
+                            Hotels & Transportation
+                        </a>
+                        <div class="text-lg font-serif text-white tracking-widest">FULL ITINERARY</div>
+                    </div>
                 </div>
             </div>
             

@@ -175,6 +175,68 @@ const days = [
   }
 ];
 
+// Hotels and Transportation Data
+const hotels = [
+  {
+    city: "Yokohama",
+    name: "Flexstay Inn Sakuragicho",
+    address: "Kanagawa, Yokohama, Naka-ku Hanasaki-cho 2-72-16, Japan",
+    coordinates: { lat: 35.4494, lng: 139.6308 },
+    checkIn: "December 29, 2025",
+    checkOut: "December 30, 2025",
+    days: [1],
+    nearestStation: {
+      name: "Sakuragicho Station",
+      address: "1 Chome Sakuragicho, Naka Ward, Yokohama, Kanagawa 231-0062, Japan",
+      coordinates: { lat: 35.4510, lng: 139.6304 },
+      walkingTime: "5 minutes"
+    }
+  },
+  {
+    city: "Osaka",
+    name: "Osaka House Sinkan",
+    address: "Osaka Prefecture, Osaka, 日本橋東1−5−14, Japan",
+    coordinates: { lat: 34.6683, lng: 135.5086 },
+    checkIn: "December 30, 2025",
+    checkOut: "January 5, 2026",
+    days: [2, 3, 4, 5, 6, 7],
+    nearestStation: {
+      name: "Nipponbashi Station",
+      address: "1-chōme-5 Nipponbashi, Chuo Ward, Osaka, 542-0073, Japan",
+      coordinates: { lat: 34.6683, lng: 135.5069 },
+      walkingTime: "3 minutes"
+    },
+    nearestYamato: {
+      name: "Yamato Transport Nipponbashi",
+      address: "1 Chome-14-10 Nipponbashi, Chuo Ward, Osaka, 542-0073, Japan",
+      coordinates: { lat: 34.6680, lng: 135.5075 },
+      walkingTime: "4 minutes"
+    }
+  },
+  {
+    city: "Tokyo",
+    name: "Easily to Ikebukuro Asakusa Shibuya for 5",
+    address: "Tokyo-to, Tokyo, 東京都田端1-7-16, Japan",
+    coordinates: { lat: 35.7380, lng: 139.7606 },
+    checkIn: "January 5, 2026",
+    checkOut: "January 10, 2026",
+    days: [8, 9, 10, 11, 12],
+    nearestStation: {
+      name: "Tabata Station",
+      address: "34 Nishinippori, Arakawa City, Tokyo 116-0013, Japan",
+      coordinates: { lat: 35.7380, lng: 139.7610 },
+      walkingTime: "2 minutes"
+    },
+    nearestYamato: {
+      name: "Yamato Transport Nishinippori",
+      address: "6 Chome-65-1 Nishinippori, Arakawa City, Tokyo 116-0013, Japan",
+      coordinates: { lat: 35.7320, lng: 139.7670 },
+      walkingTime: "8 minutes"
+    }
+  }
+];
+
+
 // --- SHARED UI HELPERS ---
 
 function getIcon(name, classes = "") {

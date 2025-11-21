@@ -78,6 +78,10 @@ function renderHomePage() {
                     <a href="public/full-itinerary.html" class="group px-10 py-5 border border-white/20 text-white font-serif font-bold tracking-wider rounded-sm hover:bg-white/5 hover:border-white/40 transition-all backdrop-blur-sm shadow-lg">
                         View Full Itinerary
                     </a>
+                    
+                    <a href="public/hotels.html" class="group px-10 py-5 border border-japan-gold/30 text-japan-gold font-serif font-bold tracking-wider rounded-sm hover:bg-japan-gold/10 hover:border-japan-gold/50 transition-all backdrop-blur-sm shadow-lg">
+                        Hotels & Transportation
+                    </a>
                 </div>
             </div>
 
