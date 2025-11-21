@@ -174,7 +174,7 @@ function renderDayPage() {
         case 6: dayIcon = getLuckyBag(iconClasses); break; // New Year Shopping
         case 7: dayIcon = getRollercoaster(iconClasses); break; // Universal Studios Japan
         case 8: dayIcon = getShinkansen(iconClasses); break; // Train to Tokyo
-        case 9: dayIcon = getBuddha(iconClasses); break; // Enoshima Island (island torii)
+        case 9: dayIcon = getIslandTorii(iconClasses); break; // Enoshima Island (island torii)
         case 10: dayIcon = getSnowman(iconClasses); break; // Ski mountain
         case 11: dayIcon = getCat(iconClasses); break; // Tokyo
         case 12: dayIcon = getSkytree(iconClasses); break; // Tokyo Skytree

@@ -56,11 +56,15 @@ function renderHomePage() {
                 </p>
 
                 <!-- Decorative Japanese Text (Vertical) -->
-                <div id="jp-text-left" class="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 writing-vertical font-japanese text-5xl md:text-7xl text-white/5 pointer-events-none select-none z-0 mix-blend-overlay opacity-0-start">
-                    日本旅行
+                <div id="jp-left-wrapper" class="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 pointer-events-none select-none z-0 mix-blend-overlay">
+                    <div id="jp-text-left" class="writing-vertical font-japanese text-5xl md:text-7xl text-white/5 opacity-0-start">
+                        日本旅行
+                    </div>
                 </div>
-                <div id="jp-text-right" class="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 writing-vertical font-japanese text-5xl md:text-7xl text-white/5 pointer-events-none select-none z-0 mix-blend-overlay opacity-0-start">
-                    二千二十五年
+                <div id="jp-right-wrapper" class="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 pointer-events-none select-none z-0 mix-blend-overlay">
+                    <div id="jp-text-right" class="writing-vertical font-japanese text-5xl md:text-7xl text-white/5 opacity-0-start">
+                        二千二十五年
+                    </div>
                 </div>
 
                 <div id="hero-buttons" class="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0-start">
@@ -109,10 +113,124 @@ function renderHomePage() {
     homePageContainer.innerHTML = heroHTML + timelineHTML + footerHTML;
 
     // Initialize Animations
+    renderBackgroundDecor(); // Must be before observer
     initScrollObserver();
     initCinematicEntrance();
     initParallax();
+    initDecorParallax();
 }
+
+
+function renderBackgroundDecor() {
+    const container = document.getElementById('itinerary-timeline');
+    if (!container) return;
+
+    // Create a container for background elements that sits behind the timeline content
+    const decorContainer = document.createElement('div');
+    decorContainer.className = 'absolute inset-0 pointer-events-none overflow-hidden';
+    decorContainer.style.zIndex = '0';
+    container.insertBefore(decorContainer, container.firstChild);
+
+    // Helper to create a decor element
+    const createDecor = (iconFn, className, style) => {
+        const el = document.createElement('div');
+        el.className = `absolute opacity-10 transition-transform duration-1000 ease-out reveal-on-scroll animate-float-slow parallax-decor ${className}`;
+        el.innerHTML = iconFn('w-full h-full text-white');
+        Object.assign(el.style, style);
+        decorContainer.appendChild(el);
+    };
+
+    // --- DECORATIVE ELEMENTS ---
+
+    // 1. Early Winter / Arrival (Top Right) -> Moved to Right to avoid Day 1 (Left)
+    createDecor(getSnowman, 'w-32 h-32 md:w-64 md:h-64', {
+        top: '5%',
+        right: '8%',
+        opacity: '0.2',
+        transform: 'rotate(15deg)'
+    });
+
+    // 2. New Year's Eve (Right side, near Day 3) -> Day 3 is LEFT card. So Decor RIGHT is good.
+    createDecor(getToriiGate, 'w-48 h-48 md:w-96 md:h-96 text-torii-red', {
+        top: '20%',
+        right: '8%',
+        opacity: '0.25',
+        transform: 'rotate(-10deg)'
+    });
+
+    // 3. New Year's Day (Left side, near Day 4) -> Day 4 is RIGHT card. So Decor LEFT is good.
+    createDecor(getLantern, 'w-24 h-36 md:w-48 md:h-72', {
+        top: '30%',
+        left: '10%',
+        opacity: '0.2',
+        transform: 'rotate(5deg)'
+    });
+
+    // 4. Kyoto (Right side, near Day 5) -> Day 5 is LEFT card. So Decor RIGHT is good.
+    // Moved down to 35% to position below Day 5 card
+    createDecor(getPagoda, 'w-40 h-48 md:w-80 md:h-96', {
+        top: '35%',
+        right: '8%',
+        opacity: '0.2',
+        transform: 'rotate(-5deg)'
+    });
+
+    // 5. Kamakura/Enoshima (Left side, near Day 9) -> Day 9 is RIGHT card. So Decor LEFT is good.
+    createDecor(getIslandTorii, 'w-40 h-40 md:w-80 md:h-80', {
+        top: '60%',
+        left: '10%',
+        opacity: '0.2',
+        transform: 'rotate(8deg)'
+    });
+
+    // 6. Snow/Ski (Left side, near Day 10) -> Day 10 is RIGHT card. So Decor LEFT is good.
+    createDecor(getMountFuji, 'w-48 h-32 md:w-96 md:h-64', {
+        top: '72%',
+        left: '10%',
+        opacity: '0.2'
+    });
+
+    // 7. West Tokyo (Left side, near Day 11) -> Day 11 is RIGHT card. So Decor LEFT is good.
+    // Moved up slightly to 78% for better positioning
+    createDecor(getCat, 'w-32 h-32 md:w-64 md:h-64', {
+        top: '78%',
+        left: '10%',
+        opacity: '0.2',
+        transform: 'rotate(-8deg)'
+    });
+
+    // 8. Tokyo Modern (Left side, near Day 12) -> Day 12 is RIGHT card. So Decor LEFT is needed.
+    // Positioned at 92% below Day 11
+    createDecor(getSkytree, 'w-40 h-[15rem] md:w-80 md:h-[30rem]', {
+        top: '92%',
+        left: '10%',
+        opacity: '0.2',
+        transform: 'rotate(10deg)'
+    });
+
+    // 9. Departure (Bottom Right) -> Day 13 is LEFT card. So Decor RIGHT is needed.
+    createDecor(getPlane, 'w-32 h-24 md:w-64 md:h-48', {
+        bottom: '5%',
+        right: '12%',
+        opacity: '0.2',
+        transform: 'rotate(-15deg)'
+    });
+}
+
+function initDecorParallax() {
+    const decorElements = document.querySelectorAll('.parallax-decor');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        decorElements.forEach((el, index) => {
+            // Parallax effect: move elements at different speeds
+            // We use marginTop to avoid conflicting with the transform (rotation) property
+            const speed = 0.05 + (index % 3) * 0.03;
+            const offset = -(scrolled * speed);
+            el.style.marginTop = `${offset}px`;
+        });
+    });
+}
+
 
 // --- ANIMATION LOGIC ---
 
@@ -123,21 +241,21 @@ function initCinematicEntrance() {
         document.getElementById('hero-bg').classList.add('animate-ken-burns');
     }, 500);
 
-    // 2. Title Entrance (1.5s)
+    // 2. Title Entrance (1.2s) - Reduced from 1.5s
     setTimeout(() => {
         const title = document.getElementById('hero-title');
         title.classList.remove('opacity-0-start');
         title.classList.add('elegant-entrance', 'layered-text', 'glitch-text');
 
-        // Year fade in slightly after
+        // Year fade in slightly after (1.4s)
         setTimeout(() => {
             const year = document.getElementById('hero-year');
             year.classList.remove('opacity-0-start');
             year.classList.add('fade-in-reveal');
         }, 200);
-    }, 1500);
+    }, 1200);
 
-    // 3. Vertical Text Fade In (2.0s)
+    // 3. Vertical Text Fade In (1.6s) - Reduced from 2.0s
     setTimeout(() => {
         const left = document.getElementById('jp-text-left');
         const right = document.getElementById('jp-text-right');
@@ -148,9 +266,9 @@ function initCinematicEntrance() {
         right.classList.remove('opacity-0-start');
         right.classList.add('fade-in-reveal');
         right.style.animationDelay = '0.2s'; // Stagger
-    }, 2000);
+    }, 1600);
 
-    // 4. Subtitles & Buttons (2.5s)
+    // 4. Subtitles & Buttons (1.8s) - Reduced from 2.5s
     setTimeout(() => {
         const badge = document.getElementById('hero-badge');
         const desc = document.getElementById('hero-desc');
@@ -161,9 +279,9 @@ function initCinematicEntrance() {
             el.classList.add('fade-in-reveal');
             el.style.animationDelay = `${i * 0.1}s`;
         });
-    }, 2500);
+    }, 1800);
 
-    // 5. Year Digit Drop Animation (5s) - Countdown style transition from 5 to 6
+    // 5. Year Digit Drop Animation (3.5s) - Increased from 2.5s
     setTimeout(() => {
         const digitContainer = document.getElementById('year-digit');
         const currentDigit = document.getElementById('year-digit-current');
@@ -188,21 +306,25 @@ function initCinematicEntrance() {
             newDigit.style.position = 'static';
             newDigit.style.marginTop = '0'; // Reset margin for the 6
         }, 1000); // Match animation duration
-    }, 5000);
+    }, 3500);
 }
 
 function initParallax() {
     const container = document.getElementById('hero-container');
-    const jpLeft = document.getElementById('jp-text-left');
-    const jpRight = document.getElementById('jp-text-right');
+    const jpLeftWrapper = document.getElementById('jp-left-wrapper');
+    const jpRightWrapper = document.getElementById('jp-right-wrapper');
 
     container.addEventListener('mousemove', (e) => {
         const x = (window.innerWidth / 2 - e.clientX) / 50;
         const y = (window.innerHeight / 2 - e.clientY) / 50;
 
-        // Apply parallax only to decorative vertical text, not the main title
-        jpLeft.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px) translateY(-50%)`; // Maintain vertical centering
-        jpRight.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px) translateY(-50%)`;
+        // Apply parallax only to decorative vertical text wrappers
+        // Note: We keep the initial -translate-y-1/2 in the CSS class, so we just add the parallax offset
+        // But wait, setting transform in JS overrides the class transform.
+        // We need to include the centering in the JS transform.
+
+        jpLeftWrapper.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px) translateY(-50%)`;
+        jpRightWrapper.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px) translateY(-50%)`;
     });
 }
 
@@ -228,7 +350,7 @@ function renderDayCard(day, index) {
         case 6: dayIcon = getLuckyBag(iconClasses); break; // Shopping
         case 7: dayIcon = getRollercoaster(iconClasses); break; // Universal Studios
         case 8: dayIcon = getShinkansen(iconClasses); break; // Travel to Tokyo
-        case 9: dayIcon = getBuddha(iconClasses); break; // Enoshima island torii
+        case 9: dayIcon = getIslandTorii(iconClasses); break; // Enoshima island torii
         case 10: dayIcon = getSnowman(iconClasses); break; // Ski mountain
         case 11: dayIcon = getCat(iconClasses); break; // Tokyo
         case 12: dayIcon = getSkytree(iconClasses); break; // Tokyo Skytree
